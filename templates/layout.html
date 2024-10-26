@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{%static 'css/style.css'%}">
+    <title>
+        {% block title %}
+            Meu Blog
+        {% endblock %}
+    </title>
+</head>
+
+<body>
+    <header>
+        <img class="perfil" src="../media/foto_perfil.jpg"
+             alt = "foto do autor"/>
+        <div>
+            {% block manchete %}
+            <h1 class = "manchete">Home Page</h1>
+            {% endblock %}
+            <nav>
+                <ul id = "navegação">
+                    <li><a class = "cabeçalho" href="/">Home</a></li>
+                    <li><a class = "cabeçalho" href="/about"> Sobre mim</a></li>
+                    <li><a class = "cabeçalho" href="{% url 'posts:list' %}"> Lista de Posts</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+    <footer>
+        <p>Copyright &#169 2024 Pedro Durante Terciotti.</p>
+    </footer>
+    
+</body>
+</html>

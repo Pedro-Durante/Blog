@@ -1,0 +1,25 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    Lista de Posts
+{% endblock %}
+
+{% block manchete %}
+<h1 class = "manchete">Lista de Posts</h1>
+{% endblock %}
+
+{% block content %}
+    <section>
+    <h1> Lista de Posts </h1>
+
+    {% for post in posts %}
+        <article>
+            <h2>
+                <a href="{% url 'posts:page' slug=post.slug %}">{{ post.title }}</a>
+            </h2>
+            <p>{{ post.date }}</p>
+            <p>{{ post.body }}</p>
+        </article>
+    {% endfor %}
+    </section>
+{% endblock %}
