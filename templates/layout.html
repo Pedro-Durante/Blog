@@ -17,7 +17,7 @@
 
 <body>
     <header>
-        <img class="perfil" src="../media/foto_perfil.jpg"
+        <img class="perfil" src="/media/foto_perfil.jpg"
              alt = "foto do autor"/>
         <div>
             {% block manchete %}
@@ -28,6 +28,17 @@
                     <li><a class = "cabeçalho" href="/">Home</a></li>
                     <li><a class = "cabeçalho" href="/about"> Sobre mim</a></li>
                     <li><a class = "cabeçalho" href="{% url 'posts:list' %}"> Lista de Posts</a></li>
+                    {% if user.is_authenticated %}
+                        <li><a class = "cabeçalho" href="{% url 'posts:new-post' %}"> Novo Post </a></li>
+                        <li><form class ="logout" action= "{% url 'users:logout'%}" method="post">
+                            {% csrf_token %}
+                            <button class="logout-button" aria-label="User Logout">Logout</button>
+                        </form>
+                        </li>
+                    {% else %}
+                        <li><a class = "cabeçalho" href="{% url 'users:register' %}"> Registre-se </a></li>
+                        <li><a class = "cabeçalho" href="{% url 'users:login' %}"> Login </a></li>
+                    {% endif %}
                 </ul>
             </nav>
         </div>
