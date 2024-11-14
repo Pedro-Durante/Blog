@@ -28,6 +28,7 @@
                     <li><a class = "cabeçalho" href="/">Home</a></li>
                     <li><a class = "cabeçalho" href="/about"> Sobre mim</a></li>
                     <li><a class = "cabeçalho" href="{% url 'posts:list' %}"> Lista de Posts</a></li>
+                    <li><a class = "cabeçalho" href="{% url 'posts:categories' %}"> Lista de Categorias</a></li>
                     {% if user.is_authenticated %}
                         <li><a class = "cabeçalho" href="{% url 'posts:new-post' %}"> Novo Post </a></li>
                         <li><form class ="logout" action= "{% url 'users:logout'%}" method="post">

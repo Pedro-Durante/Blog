@@ -1,5 +1,5 @@
-from django.shortcuts import render,redirect, get_object_or_404
-from .models import Post, Comment
+from django.shortcuts import render,redirect, get_object_or_404, get_list_or_404
+from .models import Post, Comment, Category
 from django.http import HttpResponse,HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse, reverse_lazy
@@ -14,7 +14,8 @@ def post_page(request,slug):
     post = Post.objects.get(slug=slug)
     post_id = post.id
     comments = Comment.objects.filter(post=post_id).order_by('-date')
-    return render(request,'posts/post_page.html',{ 'post': post, 'comments': comments })
+    cats = post.categories.all()
+    return render(request,'posts/post_page.html',{ 'post': post, 'cats' : cats, 'comments': comments })
 
 def update_post(request, slug):
     post = get_object_or_404(Post, slug=slug)
@@ -61,6 +62,8 @@ def post_new(request):
             newpost = form.save(commit=False)
             newpost.author = request.user
             newpost.save()
+            newpost.categories.set(form.cleaned_data.get("categories"))
+            newpost.save()
             return redirect('posts:list')
     else:
         form = forms.CreatePost()
@@ -85,5 +88,12 @@ def create_comment(request, slug):
     comments = Comment.objects.filter(post=post_id).order_by('-date')
     return render(request, 'posts/comment.html', {'form': form, 'post': post, 'comments': comments})
 
+def category(request, cat_id):
+    posts = get_list_or_404(Post,categories=cat_id)
+    cat = Category.objects.get(pk=cat_id)
+    return render(request, 'posts/category.html', {'posts': posts, 'cat': cat})
 
+def categories_list(request):
+    cats = Category.objects.all()
+    return render(request, 'posts/categories_list.html', {'cats': cats})
 

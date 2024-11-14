@@ -1,0 +1,12 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+        <h1>Categories</h1>
+        {% for cat in cats %}
+            <a href="{% url 'posts:category' cat.id %}">
+                <article class="post">
+                    <h2>{{ cat.name }}</h2>
+                </article>
+            </a>
+        {% endfor %}
+{% endblock content %}
