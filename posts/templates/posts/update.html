@@ -1,0 +1,9 @@
+{% extends 'layout.html' %}
+{% block content %}
+    <h2>Atualizar Post {{ post.title }} ({{ post.date }})</h2>
+    <form method="POST" action="{% url 'posts:update' post.slug %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Atualizar</button>
+    </form>
+{% endblock content %}

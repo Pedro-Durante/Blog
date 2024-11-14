@@ -10,10 +10,31 @@
 
 {% block content %}
     <section>
+        <h1> {{ post.title }} </h1>
         <img class="banner" src="{{post.banner.url}}"
              alt = "{{post.title}}"/>
-    <h1> {{ post.title }} </h1>
         <p>{{ post.date }}</p>
         <p>{{ post.body }}</p>
+        <ul>
+            <li><a href="{% url 'posts:update' slug=post.slug %}">Editar</a></li>
+            <li><a href="{% url 'posts:delete' slug=post.slug %}">Apagar</a></li>
+        </ul>
     </section>
+    <hr>
+    <h1>Comentários</h1>
+    <a href="{% url 'posts:comment' post.slug %}"><button style="margin-top:20px" class="edit-button" id="comment-button">Criar Comentário</button></a>
+    {% if post.comment_set.all %}
+    <section>
+ 
+        
+        {% for comment in comments %}
+            <div class="post-header">
+                <p style="margin:5px 0px 12px 0px;" class="post-body"><b>{{ comment.author }}</b> - <i>{{ comment.date }}</i></p>
+            </div>
+            <p style="margin:none;text-align:left;">{{ comment.body }}</p>
+            <hr style="border: 0.5px solid #c7c7c7; width: 100%; margin: 15px 0px 10px 0px;">
+        {% endfor %}
+    </section>
+    {% endif %}
+
 {% endblock %}

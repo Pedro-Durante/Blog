@@ -1,8 +1,10 @@
-from django.shortcuts import render,redirect
-from .models import Post
-from django.http import HttpResponse
+from django.shortcuts import render,redirect, get_object_or_404
+from .models import Post, Comment
+from django.http import HttpResponse,HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
+from django.urls import reverse, reverse_lazy
 from . import forms
+from .forms import CreatePost
 # Create your views here.
 def posts_list(request):
     posts = Post.objects.all().order_by('-date')
@@ -10,7 +12,46 @@ def posts_list(request):
 
 def post_page(request,slug):
     post = Post.objects.get(slug=slug)
-    return render(request,'posts/post_page.html',{ 'post': post })
+    post_id = post.id
+    comments = Comment.objects.filter(post=post_id).order_by('-date')
+    return render(request,'posts/post_page.html',{ 'post': post, 'comments': comments })
+
+def update_post(request, slug):
+    post = get_object_or_404(Post, slug=slug)
+
+    if request.method == "POST":
+        form = CreatePost(request.POST)
+        if form.is_valid():
+            post.title = request.POST['title']
+            post.date = post.date
+            post.body = request.POST['body']
+            post.save()
+            return redirect("posts:page", slug = slug)
+
+    else:
+        form = CreatePost(
+            initial={
+                "title": post.title,
+                "date": post.date,
+                "body": post.body,
+                "slug": post.slug,
+                "banner": post.banner,
+            }
+        )
+
+    context = {"post": post, "form": form}
+    return render(request, "posts/update.html", context)
+
+def delete_post(request, slug):
+    post = get_object_or_404(Post, slug=slug)
+    if request.method == "POST":
+        post.delete()
+        return HttpResponseRedirect(reverse("posts:list"))
+
+    context = {"post": post}
+    return render(request, "posts/delete.html", context)
+
+
 
 @login_required(login_url = "/users/login/")
 def post_new(request):
@@ -24,3 +65,25 @@ def post_new(request):
     else:
         form = forms.CreatePost()
     return render(request, 'posts/post_new.html', {'form': form})
+
+@login_required(login_url="/users/login")
+def create_comment(request, slug):
+    post = get_object_or_404(Post, slug=slug)
+    post_id = post_id = post.id
+    if request.method == 'POST':
+        form = forms.CommentForm(request.POST)
+        if form.is_valid():
+            comment_author = request.user
+            comment_text = form.cleaned_data['body']
+            comment = Comment(author=comment_author,
+                            body=comment_text,
+                            post=post)
+            comment.save()
+            return redirect("posts:page", slug=slug)
+    else:
+        form = forms.CommentForm()
+    comments = Comment.objects.filter(post=post_id).order_by('-date')
+    return render(request, 'posts/comment.html', {'form': form, 'post': post, 'comments': comments})
+
+
+
