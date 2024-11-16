@@ -5,37 +5,48 @@
 {% endblock %}
 
 {% block manchete %}
-<h1 class = "manchete">Lista de Posts</h1>
+<h1 class = "manchete">Recanto da Postagem</h1>
 {% endblock %}
 
 {% block content %}
-    <section>
-        <h1> {{ post.title }} </h1>
-        <p style="margin:5px 0px 5px 0px;" class="post-body"><b>Categorias</b>: <i>{% for cat in cats %}<a href="{% url 'posts:category' cat.id %}"><p>{{cat.name}}</p></a> {% endfor %}</i></p>
+    <section class = "page_content">
+        <h1 class = "titulo-página"> {{ post.title }} </h1>
+        <section class = "l_cats">
+            {% for cat in cats %}<a class = "cats" href="{% url 'posts:category' cat.id %}">{{cat.name}}</a> {% endfor %}
+        </section>
+        <p class = "data">{{ post.date }}</p>
         <img class="banner" src="{{post.banner.url}}"
              alt = "{{post.title}}"/>
-        <p>{{ post.date }}</p>
-        <p>{{ post.body }}</p>
-        <ul>
-            <li><a href="{% url 'posts:update' slug=post.slug %}">Editar</a></li>
-            <li><a href="{% url 'posts:delete' slug=post.slug %}">Apagar</a></li>
-        </ul>
+        <p class = "post-text">{{ post.body }}</p>
+    </section>
+    <section class = "edit">
+    {% if  user == post.author or user.is_superuser %}
+    <ul class = "alterar">
+        <li><a class = "edição" href="{% url 'posts:update' slug=post.slug %}">Editar</a></li>
+        <li><a class = "edição" href="{% url 'posts:delete' slug=post.slug %}">Apagar</a></li>
+    </ul>
+    {% endif %}
     </section>
     <hr>
-    <h1>Comentários</h1>
-    <a href="{% url 'posts:comment' post.slug %}"><button style="margin-top:20px" class="edit-button" id="comment-button">Criar Comentário</button></a>
-    {% if post.comment_set.all %}
-    <section>
- 
-        
-        {% for comment in comments %}
-            <div class="post-header">
-                <p style="margin:5px 0px 12px 0px;" class="post-body"><b>{{ comment.author }}</b> - <i>{{ comment.date }}</i></p>
-            </div>
-            <p style="margin:none;text-align:left;">{{ comment.body }}</p>
-            <hr style="border: 0.5px solid #c7c7c7; width: 100%; margin: 15px 0px 10px 0px;">
-        {% endfor %}
+    <section class = "comments">
+        <h1 class = "titulo-página">Comentários</h1>
+        <a href="{% url 'posts:comment' post.slug %}"><button class="comment-button">Criar Comentário</button></a>
+        {% if post.comment_set.all %}
+        <hr style="border: 0.5px solid #c7c7c7; width: 100%; margin: 15px 0px 10px 0px;width: 25%;">
+        <section>
+    
+            
+            {% for comment in comments %}
+                <div class = "pos-comment">
+                    <div class="post-header">
+                        <p style="margin:5px 0px 12px 0px;" class="comment-body"><b>{{ comment.author }}</b> - <i>{{ comment.date }}</i></p>
+                    </div>
+                    <p class = "post-body" style = "text-align:center;">{{ comment.body }}</p>
+                    <hr style="border: 0.5px solid #c7c7c7; width: 55%; margin: 15px 0px 10px 0px;">
+                </div>
+            {% endfor %}
+        </section>
+        {% endif %}
     </section>
-    {% endif %}
 
 {% endblock %}

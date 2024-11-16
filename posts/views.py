@@ -25,7 +25,9 @@ def update_post(request, slug):
         if form.is_valid():
             post.title = request.POST['title']
             post.date = post.date
+            post.banner = request.POST['banner']
             post.body = request.POST['body']
+            post.categories.set(form.cleaned_data.get("categories"))
             post.save()
             return redirect("posts:page", slug = slug)
 

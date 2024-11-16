@@ -1,9 +1,9 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-<h2>Comentar Post {{ post.name }} ({{ post.date }})</h2>
+<h1 class = "titulo-página">Comentar Post: "{{ post.title }}"</h1>
 
-<form action="{% url 'posts:comment' slug=post.slug %}" method="post">
+<form class = "form-with-validation" action="{% url 'posts:comment' slug=post.slug %}" method="post">
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit">Comentar</button>

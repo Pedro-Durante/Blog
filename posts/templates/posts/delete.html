@@ -2,7 +2,9 @@
 {% block content %}
     <form action="{% url 'posts:delete' slug=post.slug %}" method="post">
         {% csrf_token %}
-        <p>Você tem certeza que deseja apagar o post"{{ post.title }} ({{ post.date }})"?</p>
-        <button type="submit">Apagar</button>
+        <p class = "delete-text">Você tem certeza que deseja apagar o post "{{ post.title }} ({{ post.date }})"?</p>
+        <div class = "button">
+            <button class = "comment-button" type="submit">Apagar</button>
+        <div>
     </form>
 {% endblock content %}

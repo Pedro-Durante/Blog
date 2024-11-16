@@ -5,12 +5,12 @@
 {% endblock %}
 
 {% block manchete %}
-<h1 class = "manchete">Lista de Posts</h1>
+<h1 class = "manchete">Recanto da Postagem</h1>
 {% endblock %}
 
 {% block content %}
     <section>
-        <h1>New Post</h1>
+        <h1 class = "titulo-página">Novo Post</h1>
         <form class="form-with-validation" action="{% url 'posts:new-post' %}" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             {{form}}

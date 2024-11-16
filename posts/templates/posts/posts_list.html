@@ -5,20 +5,20 @@
 {% endblock %}
 
 {% block manchete %}
-<h1 class = "manchete">Lista de Posts</h1>
+<h1 class = "manchete">Recanto da Postagem</h1>
 {% endblock %}
 
 {% block content %}
-    <section>
-    <h1> Lista de Posts </h1>
+    <section class = "post-list">
+    <h1 class = "titulo-página"> Lista de Posts </h1>
 
     {% for post in posts %}
-        <article>
-            <h2>
-                <a href="{% url 'posts:page' slug=post.slug %}">{{ post.title }}</a>
+        <article class  = "Postagem">
+            <h2 >
+                <a class = "titulo-post" href="{% url 'posts:page' slug=post.slug %}">{{ post.title }}</a>
             </h2>
             <p>{{ post.date }} by {{post.author}}</p>
-            <p>{{ post.body }}</p>
+
         </article>
     {% endfor %}
     </section>

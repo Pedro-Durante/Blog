@@ -5,19 +5,20 @@
 {% endblock title %}
 
 {% block content %}
-        <h1>Posts sobre {{ cat }}</h1>
-        <p>{{ cat.description }}</p>
+    <section class = "category-list">
+        <h1 class = "titulo-página">Posts sobre {{ cat }}</h1>
+        <p class = "description">{{ cat.description }}</p>
         {% for post in posts %}
             {% if user.is_authenticated%}
-                <a href="{% url 'posts:page' slug=post.slug %}">
-                    <article class="post">
-                        <h2>{{ post.title }}</h2>
-                        <p>{{ post.body }}</p>
-                        <p><i>{{ post.date }}</i> by {{ post.author }}</p>
-                    </article>
+            <article class="Postagem">
+                <a class = "titulo-post" href="{% url 'posts:page' slug=post.slug %}">
+                    <h2 >{{ post.title }}</h2>
                 </a>
+                <p class = "data"><i>{{ post.date }}</i> by {{ post.author }}</p>
+            </article>
             {% endif %}
         {% endfor %}
+    </section>
         {% if not user.is_authenticated%}
         <div style="text-align: center;">
             <p style="margin-top: 50px; margin-right: 10px; display: inline-block;"><b>Login</b> to view more posts</p>

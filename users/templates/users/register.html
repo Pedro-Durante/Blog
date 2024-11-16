@@ -5,10 +5,10 @@
 {% endblock %}
 
 {% block content %}
-    <h1>Register a New User</h1>
+    <h1 class = "titulo-página">Registre-se</h1>
     <form class="form-with-validation" action="/users/register/" method="post">
         {% csrf_token %}
         {{form}}
-        <button class = "form-submit">Submit</button>
+        <button class = "form-submit">Registrar</button>
     </form>
 {% endblock %}

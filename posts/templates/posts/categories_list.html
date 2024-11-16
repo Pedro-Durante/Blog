@@ -1,12 +1,14 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-        <h1>Categories</h1>
+        <section class = "category-list">
+        <h1 class = "titulo-página">Lista de Categorias</h1>
         {% for cat in cats %}
-            <a href="{% url 'posts:category' cat.id %}">
+            <a class = "categoria" href="{% url 'posts:category' cat.id %}">
                 <article class="post">
                     <h2>{{ cat.name }}</h2>
                 </article>
             </a>
         {% endfor %}
+        </section>
 {% endblock content %}

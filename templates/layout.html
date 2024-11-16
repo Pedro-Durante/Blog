@@ -17,16 +17,14 @@
 
 <body>
     <header>
-        <img class="perfil" src="/media/foto_perfil.jpg"
-             alt = "foto do autor"/>
         <div>
             {% block manchete %}
-            <h1 class = "manchete">Home Page</h1>
+            <h1 class = "manchete">Recanto da Postagem</h1>
             {% endblock %}
             <nav>
                 <ul id = "navegação">
                     <li><a class = "cabeçalho" href="/">Home</a></li>
-                    <li><a class = "cabeçalho" href="/about"> Sobre mim</a></li>
+                    <li><a class = "cabeçalho" href="/about"> Sobre</a></li>
                     <li><a class = "cabeçalho" href="{% url 'posts:list' %}"> Lista de Posts</a></li>
                     <li><a class = "cabeçalho" href="{% url 'posts:categories' %}"> Lista de Categorias</a></li>
                     {% if user.is_authenticated %}
